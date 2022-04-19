@@ -1,11 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LoginPage from './LoginPage';
+import Home from './pages/Home';
 
 function App() {
   return (
     <div>
-      <LoginPage/>
+      <Home/>
     </div>
   );
 }
