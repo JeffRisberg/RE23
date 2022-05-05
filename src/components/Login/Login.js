@@ -9,14 +9,13 @@ const LoginPage = (props) => {
     background: "#fff",
     padding: "30px",
     borderRadius: "10px",
-    boxShadow: "0px 0px 10px 10px rgba(0,0,0,0.15)"
+    boxShadow: "0px 0px 3px 3px rgba(0,0,0,0.15)"
   };
   const { touched, errors } = props;
   return(
-    <React.Fragment>
       <div className="container">
         <div className="login-wrapper" style={loginPageStyle}>
-          <h2>Login Page</h2>
+          <h2>Login</h2>
           <Form className="form-container">
             <div className="form-group">
               <label htmlFor="email">Email</label>
@@ -32,7 +31,6 @@ const LoginPage = (props) => {
           </Form>
         </div>
       </div>
-    </React.Fragment>
   );
 }
 
@@ -48,6 +46,7 @@ const LoginFormik = withFormik({
     password: Yup.string().required('Password is required')
   }),
   handleSubmit: (values) => {
+    console.log(values);
     const REST_API_URL = "YOUR_REST_API_URL";
     fetch(REST_API_URL, {
       method: 'post',
