@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import "./Dashboard.css"
@@ -9,7 +9,7 @@ function Dashboard(props) {
 
    const navigate = useNavigate(); // <-- call hook to get navigate function
 
-   function x() {
+   function doLogout() {
      props.logout();
      navigate("/")
    }
@@ -21,7 +21,7 @@ function Dashboard(props) {
         {props.user != null ? props.user.firstName : ""}
         {props.user != null ? props.user.lastName : ""}
         <br/>
-        <a onClick={x}>Logout</a>
+        <a onClick={doLogout}>Logout</a>
    </div>
  )
 }
