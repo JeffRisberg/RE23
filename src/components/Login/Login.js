@@ -1,6 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import axios from "axios";
 import { withFormik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+
+import { login } from '../../actions/user';
 
 const LoginPage = (props) => {
   const loginPageStyle = {
@@ -11,8 +15,10 @@ const LoginPage = (props) => {
     borderRadius: "10px",
     boxShadow: "0px 0px 3px 3px rgba(0,0,0,0.15)"
   };
+
   const { touched, errors } = props;
-  return(
+
+  return (
       <div className="container">
         <div className="login-wrapper" style={loginPageStyle}>
           <h2>Login</h2>
@@ -45,27 +51,29 @@ const LoginFormik = withFormik({
     email: Yup.string().email('Email not valid').required('Email is required'),
     password: Yup.string().required('Password is required')
   }),
-  handleSubmit: (values) => {
-    console.log(values);
-    const REST_API_URL = "YOUR_REST_API_URL";
-    fetch(REST_API_URL, {
-      method: 'post',
-      body: JSON.stringify(values)
-    }).then(response=> {
-      if (response.ok) {
-        return response.json();
+  handleSubmit: (values, { props }) => {
+    axios.post("http://localhost:5000/login", values)
+    .then(response => {
+      console.log(response);
+      if (response.status == 200) {
+        console.log(response.data[0]);
+
+        props.login(response.data[0]);
+        console.log(props);
+        props.navigate.navigate("/dashboard")
       } else {
         // HANDLE ERROR
         throw new Error('Something went wrong');
       }
-    }).then(data => {
-      // HANDLE RESPONSE DATA
-      console.log(data);
-    }).catch((error) => {
-      // HANDLE ERROR
-      console.log(error);
-    });
+    })
   }
 })(LoginPage);
 
-export default LoginFormik
+const mapStateToProps = (state) => ({
+  content: state.app.content
+});
+
+export default connect(
+    mapStateToProps,
+    {login}
+)(LoginFormik);
